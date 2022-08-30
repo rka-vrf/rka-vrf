@@ -10,3 +10,10 @@ curv-kzen = "0.9"
 sha2 = "0.9"
 curve25519-dalek = "3"
 rand = "0.7"
+
+[dev-dependencies]
+criterion = "0.3.6"
+
+[[bench]]
+name = "bench_all"
+harness = false

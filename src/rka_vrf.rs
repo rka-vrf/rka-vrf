@@ -154,7 +154,7 @@ impl <C: Curve> VRFOutput<C> {
 
 #[cfg(test)]
 mod tests {
-    use std::time::{SystemTime, Duration};
+    // use std::time::{SystemTime, Duration};
 
     use curv::elliptic::curves::{Scalar, Ed25519, Point, Curve};
 
@@ -193,34 +193,34 @@ mod tests {
         test_generic_vrf::<Ed25519>()
     }
 
-    fn bench_generic_vrf<C: Curve>(repetition: usize) -> (Duration, Duration){
-        let sk = Scalar::<C>::random();
-        let vk = Point::<C>::generator() * &sk;
-        let x = Point::<C>::generator() * &Scalar::<C>::random();
+    // fn bench_generic_vrf<C: Curve>(repetition: usize) -> (Duration, Duration){
+    //     let sk = Scalar::<C>::random();
+    //     let vk = Point::<C>::generator() * &sk;
+    //     let x = Point::<C>::generator() * &Scalar::<C>::random();
 
-        let g_tilde = Point::<C>::generator() * &Scalar::<C>::random();
-        let h_tilde = Point::<C>::generator() * &Scalar::<C>::random();
+    //     let g_tilde = Point::<C>::generator() * &Scalar::<C>::random();
+    //     let h_tilde = Point::<C>::generator() * &Scalar::<C>::random();
 
-        let eval_time = SystemTime::now();
-        (0..repetition).for_each(|_| {
-            VRFOutput::eval(&g_tilde, &h_tilde, &vk, &sk, &x);
-        });
-        let eval_time = SystemTime::now().duration_since(eval_time).unwrap();
+    //     let eval_time = SystemTime::now();
+    //     (0..repetition).for_each(|_| {
+    //         VRFOutput::eval(&g_tilde, &h_tilde, &vk, &sk, &x);
+    //     });
+    //     let eval_time = SystemTime::now().duration_since(eval_time).unwrap();
 
-        let output = VRFOutput::eval(&g_tilde, &h_tilde, &vk, &sk, &x);
-        let verify_time = SystemTime::now();
-        (0..repetition).for_each(|_| {
-            assert_eq!(true, output.verify(&g_tilde, &h_tilde, &vk, &x));
-        });
-        let verify_time = SystemTime::now().duration_since(verify_time).unwrap();
+    //     let output = VRFOutput::eval(&g_tilde, &h_tilde, &vk, &sk, &x);
+    //     let verify_time = SystemTime::now();
+    //     (0..repetition).for_each(|_| {
+    //         assert_eq!(true, output.verify(&g_tilde, &h_tilde, &vk, &x));
+    //     });
+    //     let verify_time = SystemTime::now().duration_since(verify_time).unwrap();
         
-        (eval_time, verify_time)
-    }
+    //     (eval_time, verify_time)
+    // }
 
-    #[test]
-    fn bench_ed25519_vrf_1000() {
-        let (eval_time, verify_time) = bench_generic_vrf::<Ed25519>(1000);
-        println!("Evaluate time    : {} ms", (eval_time.as_millis() as f32) / 1000.0);
-        println!("Verification time: {} ms", (verify_time.as_millis() as f32) / 1000.0);
-    }
+    // #[test]
+    // fn bench_ed25519_vrf_1000() {
+    //     let (eval_time, verify_time) = bench_generic_vrf::<Ed25519>(1000);
+    //     println!("Evaluate time    : {} ms", (eval_time.as_millis() as f32) / 1000.0);
+    //     println!("Verification time: {} ms", (verify_time.as_millis() as f32) / 1000.0);
+    // }
 }

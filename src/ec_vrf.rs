@@ -74,7 +74,7 @@ impl VRFOutput {
 
 #[cfg(test)]
 mod tests {
-    use std::time::{SystemTime, Duration};
+    // use std::time::{SystemTime, Duration};
 
     use curve25519_dalek::scalar::Scalar;
     use super::VRFOutput;
@@ -89,32 +89,32 @@ mod tests {
         assert_eq!(true, output.verify(&vk, &x))
     }
 
-   fn bench_ec_vrf(repetition: usize) -> (Duration, Duration) {
-        let mut rng = rand::rngs::ThreadRng::default();
-        let sk = Scalar::random(&mut rng);
-        let vk = curve25519_dalek::constants::ED25519_BASEPOINT_POINT * &sk;
-        let x = Scalar::random(&mut rng);
+//    fn bench_ec_vrf(repetition: usize) -> (Duration, Duration) {
+//         let mut rng = rand::rngs::ThreadRng::default();
+//         let sk = Scalar::random(&mut rng);
+//         let vk = curve25519_dalek::constants::ED25519_BASEPOINT_POINT * &sk;
+//         let x = Scalar::random(&mut rng);
 
-        let eval_time = SystemTime::now();
-        (0..repetition).for_each(|_| {
-            VRFOutput::eval(&vk, &sk, &x);
-        });
-        let eval_time = SystemTime::now().duration_since(eval_time).unwrap();
+//         let eval_time = SystemTime::now();
+//         (0..repetition).for_each(|_| {
+//             VRFOutput::eval(&vk, &sk, &x);
+//         });
+//         let eval_time = SystemTime::now().duration_since(eval_time).unwrap();
 
-        let output = VRFOutput::eval(&vk, &sk, &x);
-        let verify_time = SystemTime::now();
-        (0..repetition).for_each(|_| {
-            assert_eq!(true, output.verify(&vk, &x));
-        });
-        let verify_time = SystemTime::now().duration_since(verify_time).unwrap();
+//         let output = VRFOutput::eval(&vk, &sk, &x);
+//         let verify_time = SystemTime::now();
+//         (0..repetition).for_each(|_| {
+//             assert_eq!(true, output.verify(&vk, &x));
+//         });
+//         let verify_time = SystemTime::now().duration_since(verify_time).unwrap();
 
-        (eval_time, verify_time)
-    }
+//         (eval_time, verify_time)
+//     }
 
-    #[test]
-    fn bench_ec_vrf_1000() {
-        let (eval_time, verify_time) = bench_ec_vrf(1000);
-        println!("Evaluate time    : {} ms", (eval_time.as_millis() as f32) / 1000.0);
-        println!("Verification time: {} ms", (verify_time.as_millis() as f32) / 1000.0);
-    }
+//     #[test]
+//     fn bench_ec_vrf_1000() {
+//         let (eval_time, verify_time) = bench_ec_vrf(1000);
+//         println!("Evaluate time    : {} ms", (eval_time.as_millis() as f32) / 1000.0);
+//         println!("Verification time: {} ms", (verify_time.as_millis() as f32) / 1000.0);
+//     }
 }
